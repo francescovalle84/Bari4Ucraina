@@ -1,29 +1,199 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-  {% block title %}<title>Local Library</title>{% endblock %}
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-  <!-- Add additional CSS in static file -->
-  {% load static %}
-  <link rel="icon" href="{% static 'images/favicon.ico' %}">
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-<body>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-2">
-      {% block sidebar %}
-        <ul class="sidebar-nav">
-          <li><a href="{% url 'index' %}">Home</a></li>
-          <li><a href="">All books</a></li>
-          <li><a href="">All authors</a></li>
-        </ul>
-     {% endblock %}
-      </div>
-      <div class="col-sm-10 ">{% block content %}{% endblock %}</div>
+<!-- Extends default Bootstrap Italia template -->
+{% extends 'bootstrap-italia-base.html' %}
+
+<!-- From app django-sass-processor -->
+{% load sass_tags %}
+
+{% load static %}
+
+<!-- Page Title -->
+{% block page_title %}
+Comune di Bari
+{% endblock page_title %}
+
+<!-- My custom scss sheet -->
+{% block extra_head %}
+<link href="{% static 'css/styles.css' %}" rel="stylesheet" type="text/css" />
+<link rel="icon" href="{% static 'images/logo.ico' %}">
+{% endblock extra_head %}
+
+<!-- URL link top left -->
+{% block header_slim_org_url %}
+https://www.comune.bari.it
+{% endblock header_slim_org_url %}
+
+<!-- Name top left -->
+{% block header_slim_org_name %}
+Comune di Bari
+{% endblock header_slim_org_name %}
+
+<!-- Mobile slim_org_name -->
+{% block header_slim_mobile_org_name %}
+Comune di Bari
+{% endblock header_slim_mobile_org_name %}
+
+<!-- Make empty areas -->
+{% block header_mobile_arrow %}{% endblock header_mobile_arrow %}
+{% block header_mobile_slim_menu %}{% endblock header_mobile_slim_menu %}
+
+<!-- Logo in Header -->
+{% block header_center_logo %}
+<img class="icon" src="{% static 'images/logo.png' %}" />
+{% endblock header_center_logo %}
+
+<!-- Url in Header -->
+{% block header_center_url %}
+
+{% endblock header_center_url %}
+
+<!-- Organization name in Header -->
+{% block header_center_org_name %}
+Comune di Bari
+{% endblock header_center_org_name %}
+
+<!-- Organization description in Header -->
+{% block header_center_org_subname %}
+Bari 4 Ucraina
+{% endblock header_center_org_subname %}
+
+<!-- Language -->
+{% block header_slim_sub_menu %}
+{% endblock header_slim_sub_menu %}
+
+<!-- Login button in header -->
+{% block header_slim_buttons %}
+    {% if user.is_authenticated %}
+<div class="it-access-top-wrapper btn-group">
+    <button type="button" class="btn btn-primary btn-sm text-decoration-none dropdown-toggle" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+        <span>{{ user.get_full_name }} - ({{ user.username}})</span>
+        <svg class="icon-expand icon icon-xs icon-light">
+            <use xlink:href="{% static 'svg/sprite.svg' %}#it-expand"></use>
+        </svg>
+    </button>
+    <div class="dropdown-menu">
+        <div class="link-list-wrapper">
+            <ul class="link-list">
+                <li><span class="divider"></span></li>
+                <li><a class="list-item" href="#" data-toggle="modal" data-target="#logout_popup"><span>Logout</span></a></li>
+            </ul>
+        </div>
     </div>
-  </div>
-</body>
-</html>
+</div>
+    {% else %}
+<div class="it-access-top-wrapper">
+    <a class="btn btn-primary btn-sm text-decoration-none" href="{% url 'login' %}" role="button">Accedi</a>
+</div>
+    {% endif %}
+
+<!-- Logout popup confirmation -->
+<div class="modal fade" tabindex="-1" role="dialog" id="logout_popup">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">SEI SICURO DI VOLER USCIRE?</h5>
+            </div>
+            <div class="modal-body">
+                <p>Effettuando il logout non avrai pi accesso alle funzionalità dell'area riservata.</p>
+                <p>Sicuro di voler continuare?</p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Annulla</a>
+                <a class="btn btn-primary btn-sm" href="{% url 'logout'%}">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock header_slim_buttons %}
+
+<!-- Social and Search -->
+{% block header_center_right_zone %}
+{% endblock header_center_right_zone %}
+
+<!-- Logo in Footer -->
+{% block footer_logo %}
+<img class="icon" src="{% static 'images/logo.png' %}" />
+{% endblock footer_logo %}
+
+<!-- Url in Footer -->
+{% block footer_logo_url %}
+/
+{% endblock footer_logo_url %}
+
+<!-- Organization name in Footer -->
+{% block footer_org_name %}
+Comune di Bari
+{% endblock footer_org_name %}
+
+<!-- Organization name in Footer -->
+{% block footer_org_subname %}
+<a href="{% url 'login' %}">Area Riservata - Bari 4 Ucraina</a>
+{% endblock footer_org_subname %}
+
+                    {% block footer_menu_section %}
+                    {% endblock footer_menu_section %}
+{% block footer_contacts_section %}
+<section class="py-4 border-white border-top">
+    <div class="row">
+        <div class="col-lg-4 col-md-4 pb-2">
+            <h4><a>Contatti</a></h4>
+            <p>
+                <strong>Comune di Bari</strong><br />Palazzo di Città<br />Corso Vittorio Emanuele II, 84<br />70122 - Bari
+            </p>
+            <p>
+                Codice Fiscale: 80015010723<br />Partita IVA: 00268080728
+            </p>
+            <div class="link-list-wrapper">
+                <ul class="footer-list link-list clearfix">
+                    <li><a class="list-item" href="https://indicepa.gov.it/ipa-portale/consultazione/domicilio-digitale/ricerca-domicili-digitali-ente/scheda-area-organizzativa-omogenea/A2C2844/scheda-ente/4063" target="_blank" title="Vai alla pagina: Posta Elettronica Certificata">Posta Elettronica Certificata</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 pb-2">
+            <h4><a>URP - Ufficio Relazioni con il Pubblico</a></h4>
+            <div class="link-list-wrapper">
+                <ul class="footer-list link-list clearfix">
+                    <li><a class="list-item" href="http://www.comune.bari.it/urp-centrale" target="_blank" title="Vai alla pagina: URP Centrale">URP Centrale</a></li>
+                    <li><a class="list-item" href="http://www.comune.bari.it/urp-carbonara" target="_blank" title="Vai alla pagina: URP Carbonara">URP Carbonara</a></li>
+                    <li><a class="list-item" href="http://www.comune.bari.it/urp-japigia" target="_blank" title="Vai alla pagina: URP Japigia">URP Japigia</a></li>
+                    <li><a class="list-item" href="http://www.comune.bari.it/urp-poggiofranco" target="_blank" title="Vai alla pagina: URP Poggiofranco">URP Poggiofranco</a></li>
+                    <li><a class="list-item" href="http://www.comune.bari.it/urp-san-paolo" target="_blank" title="Vai alla pagina: URP San Paolo">URP San Paolo</a></li>
+                    <li><a class="list-item" href="http://www.comune.bari.it/urp-servizi-demografici" target="_blank" title="Vai alla pagina: URP Demografici Centro">URP Demografici Centro</a></li>
+                    <li><a class="list-item" href="http://www.comune.bari.it/urp-carrassi" target="_blank" title="Vai alla pagina: URP Demografici Carrassi">URP Demografici Carrassi</a></li>
+                    <li><a class="list-item" href="http://www.comune.bari.it/urp-santo-spirito" target="_blank" title="Vai alla pagina: URP Demografici Santo Spirito">URP Demografici S. Spirito</a></li>
+                    <li><a class="list-item" href="http://www.comune.bari.it/urp-servizi-alla-persona" target="_blank" title="Vai alla pagina: URP Servizi alla Persona">URP Servizi alla Persona</a></li>
+                    <li><a class="list-item" href="http://www.comune.bari.it/urp-tributi" target="_blank" title="Vai alla pagina: URP Tributi">URP Tributi</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 pb-2">
+            <div class="pb-2">
+                <h4><a>Seguici su</a></h4>
+                <ul class="list-inline text-left social">
+                    <li class="list-inline-item">
+                        <a class="p-2 text-white" href="http://www.facebook.com/comunedibari" target="_blank">
+                            <svg class="icon icon-sm icon-white align-top">
+                                <use xlink:href="{% static 'svg/sprite.svg' %}#it-facebook"></use>
+                            </svg><span class="sr-only">Facebook</span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="p-2 text-white" href="https://twitter.com/ComunediBari" target="_blank">
+                            <svg class="icon icon-sm icon-white align-top">
+                                <use xlink:href="{% static 'svg/sprite.svg' %}#it-twitter"></use>
+                            </svg><span class="sr-only">Twitter</span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="p-2 text-white" href="https://www.youtube.com/comunedibari" target="_blank">
+                            <svg class="icon icon-sm icon-white align-top">
+                                <use xlink:href="{% static 'svg/sprite.svg' %}#it-youtube"></use>
+                            </svg><span class="sr-only">Medium</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock footer_contacts_section %}
+

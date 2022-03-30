@@ -1,5 +1,3 @@
-.sidebar-nav {
-    margin-top: 20px;
-    padding: 0;
-    list-style: none;
+.cryptedmail:after {
+    content: attr(data-name) "@" attr(data-domain) "." attr(data-tld);
 }

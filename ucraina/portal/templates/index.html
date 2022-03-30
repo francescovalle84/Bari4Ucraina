@@ -1,12 +1,21 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-  <h1>Local Library Home</h1>
-  <p>Welcome to LocalLibrary, a website developed by <em>Mozilla Developer Network</em>!</p>
-  <h2>Dynamic content</h2>
-  <p>The library has the following record counts:</p>
-  <ul>
-      <li><strong>Richieste:</strong> {{ num_richieste }}</li>
-      <li><strong>Componenti:</strong> {{ num_componenti }}</li>
-  </ul>
+<div class="container">
+    <div class="col-12 py-md-5 bd-content">
+        {% block centered_container %}<h1>Benvenuti nel portale dedicato all'emergenza in Ucraina</h1>
+        <h4>Se sei un operatore della Rip. Servizi alla Persona, effettua l'accesso cliccando <a href="{% url 'login' %}">qui</a></h4>
+        {% endblock %}
+    </div>
+</div>
 {% endblock %}
+
+{% block menu_links %}
+<li class="nav-item active"><a class="nav-link active" href="{% url 'index' %}"><span>Home</span><span class="sr-only">current</span></a></li>
+    {% if user.is_authenticated %}
+        <li class="nav-item active"><a class="nav-link" href="../admin"><span>Gestione richieste</span><span class="sr-only">current</span></a></li>
+    {% endif %}
+<li class="nav-item"><a class="nav-link" href="https://www.comune.bari.it/web/servizi-alla-persona/emergenza-ucraina">Emergenza Ucraina</a></li>
+<li class="nav-item"><a class="nav-link" href="https://www.comune.bari.it/web/servizi-alla-persona/emergenza-ucraina-famiglie-accoglienti-bari">Famiglie accoglienti di Bari</a></li>
+{% endblock menu_links %}
