@@ -19,8 +19,14 @@ from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
 
+# Admin header customization
+admin.site.site_header = "BARI 4 UCRAINA"
+admin.site.site_title = "Benvenuti sul portale dedicato all'emergenza Ucraina"
+admin.site.index_title = "Bari 4 Ucraina"
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('portal/', include('portal.urls')),
-    path('', RedirectView.as_view(url='portal/')),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('', RedirectView.as_view(url='portal/', permanent=True)),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
